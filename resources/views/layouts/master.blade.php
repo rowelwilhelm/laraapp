@@ -107,7 +107,7 @@
                            onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                             <i class="nav-icon fas fa-power-off red"></i>
-                            {{ __('Logout') }}
+                            <p>Logout</p>
                         </a>
 
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
