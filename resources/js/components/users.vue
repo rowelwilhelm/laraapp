@@ -111,6 +111,8 @@
 </template>
 
 <script>
+    import {bus} from "../app";
+
     export default {
         data() {
             return {
@@ -128,16 +130,25 @@
         methods: {
             createuser() {
                 this.$Progress.start();
-                this.form.post('api/user');
 
-                $('#addNew').modal('hide');
+                this.form.post('api/user')
+                    .then((response)=>{
+                        bus.$emit('aftercreated');
+                        $('#addNew').modal('hide');
 
-                toast({
-                    type: 'success',
-                    title: 'User Created Successfully'
-                });
+                        toast({
+                            type: 'success',
+                            title: 'User Created Successfully'
+                        });
+                        this.$Progress.finish();
+                    })
+                    .catch((err)=>{
+                        this.$Progress.fail();
+                    });
 
-                this.$Progress.finish();
+
+
+
             },
             loadusers() {
                 axios.get("api/user")
@@ -151,6 +162,9 @@
         },
         created() {
             this.loadusers();
+            bus.$on('aftercreated',()=>{
+                this.loadusers();
+            });
         }
     }
 </script>
