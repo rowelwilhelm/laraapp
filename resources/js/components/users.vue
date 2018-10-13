@@ -22,13 +22,15 @@
                                 <th>Name</th>
                                 <th>E-mail</th>
                                 <th>Type</th>
+                                <th>Registered At</th>
                                 <th>Modify</th>
                             </tr>
-                            <tr>
-                                <td>183</td>
-                                <td>John Doe</td>
-                                <td>11-7-2014</td>
-                                <td><span class="tag tag-success">Approved</span></td>
+                            <tr v-for="(item,index) in users" :key="index">
+                                <td>{{item.id}}</td>
+                                <td>{{item.name}}</td>
+                                <td>{{item.email}}</td>
+                                <td class="text-capitalize">{{item.type}}</td>
+                                <td>{{item.created_at}}</td>
                                 <td>
                                     <a href="#">
                                         <i class="fa fa-edit blue"></i>
@@ -112,6 +114,7 @@
     export default {
         data() {
             return {
+                users: {},
                 form: new Form({
                     name: '',
                     email: '',
@@ -125,7 +128,19 @@
         methods: {
             createuser(){
                 this.form.post('api/user');
+            },
+            loadusers(){
+                axios.get("api/user")
+                    .then(({data})=>{
+                        this.users = data.data;
+                    })
+                    .catch((err)=>{
+                        console.log(err);
+                    });
             }
+        },
+        created(){
+            this.loadusers();
         }
     }
 </script>
