@@ -36,7 +36,7 @@
                                         <i class="fa fa-edit blue"></i>
                                     </a>
                                     /
-                                    <a href="#">
+                                    <a href="#" @click.prevent="deleteuser(item.id)">
                                         <i class="fa fa-trash red"></i>
                                     </a>
                                 </td>
@@ -132,7 +132,7 @@
                 this.$Progress.start();
 
                 this.form.post('api/user')
-                    .then((response)=>{
+                    .then((response) => {
                         bus.$emit('aftercreated');
                         $('#addNew').modal('hide');
 
@@ -142,11 +142,9 @@
                         });
                         this.$Progress.finish();
                     })
-                    .catch((err)=>{
+                    .catch((err) => {
                         this.$Progress.fail();
                     });
-
-
 
 
             },
@@ -158,11 +156,43 @@
                     .catch((err) => {
                         console.log(err);
                     });
+            },
+            deleteuser(id) {
+                swal({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+
+                    //Send delete request to the server
+                    if (result.value) {
+                        this.form.delete('api/user/' + id)
+                            .then((response) => {
+                                bus.$emit('aftercreated');
+                                swal(
+                                    'Deleted!',
+                                    'Your file has been deleted.',
+                                    'success'
+                                )
+                            })
+                            .catch(() => {
+                                swal(
+                                    'Failed!',
+                                    'An error has occurred while deleting this user.',
+                                    'warning'
+                                )
+                            });
+                    }
+                })
             }
         },
         created() {
             this.loadusers();
-            bus.$on('aftercreated',()=>{
+            bus.$on('aftercreated', () => {
                 this.loadusers();
             });
         }
