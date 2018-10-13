@@ -11,6 +11,7 @@ window.Vue = require('vue');
 import VueRouter from 'vue-router';
 import { Form, HasError, AlertError } from 'vform';
 import routes from './routes';
+import moment from 'moment';
 
 Vue.use(VueRouter);
 
@@ -24,6 +25,13 @@ const router = new VueRouter({
     routes: routes,
     mode: 'history'
 });
+
+// GLOBAL FILTERS
+Vue.filter('mydate',function (arg){
+    return moment(arg).format("MMM Do YYYY");
+});
+
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

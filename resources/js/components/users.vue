@@ -30,7 +30,7 @@
                                 <td>{{item.name}}</td>
                                 <td>{{item.email}}</td>
                                 <td class="text-capitalize">{{item.type}}</td>
-                                <td>{{item.created_at}}</td>
+                                <td>{{item.created_at | mydate}}</td>
                                 <td>
                                     <a href="#">
                                         <i class="fa fa-edit blue"></i>
