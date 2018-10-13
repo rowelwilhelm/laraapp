@@ -127,7 +127,9 @@
         },
         methods: {
             createuser(){
+                this.$Progress.start();
                 this.form.post('api/user');
+                this.$Progress.finish();
             },
             loadusers(){
                 axios.get("api/user")

@@ -12,8 +12,14 @@ import VueRouter from 'vue-router';
 import { Form, HasError, AlertError } from 'vform';
 import routes from './routes';
 import moment from 'moment';
+import VueProgressBar from 'vue-progressbar';
 
 Vue.use(VueRouter);
+Vue.use(VueProgressBar, {
+    color: 'rgb(143, 255, 199)',
+    failedColor: 'red',
+    height: '2px'
+});
 
 window.Form = Form;
 Vue.component(HasError.name, HasError);
