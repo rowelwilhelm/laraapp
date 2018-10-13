@@ -126,22 +126,30 @@
             }
         },
         methods: {
-            createuser(){
+            createuser() {
                 this.$Progress.start();
                 this.form.post('api/user');
+
+                $('#addNew').modal('hide');
+
+                toast({
+                    type: 'success',
+                    title: 'User Created Successfully'
+                });
+
                 this.$Progress.finish();
             },
-            loadusers(){
+            loadusers() {
                 axios.get("api/user")
-                    .then(({data})=>{
+                    .then(({data}) => {
                         this.users = data.data;
                     })
-                    .catch((err)=>{
+                    .catch((err) => {
                         console.log(err);
                     });
             }
         },
-        created(){
+        created() {
             this.loadusers();
         }
     }

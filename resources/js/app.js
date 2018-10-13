@@ -13,6 +13,7 @@ import { Form, HasError, AlertError } from 'vform';
 import routes from './routes';
 import moment from 'moment';
 import VueProgressBar from 'vue-progressbar';
+import swal from 'sweetalert2';
 
 Vue.use(VueRouter);
 Vue.use(VueProgressBar, {
@@ -22,6 +23,8 @@ Vue.use(VueProgressBar, {
 });
 
 window.Form = Form;
+window.swal = swal;
+
 Vue.component(HasError.name, HasError);
 Vue.component(AlertError.name, AlertError);
 
@@ -31,6 +34,14 @@ const router = new VueRouter({
     routes: routes,
     mode: 'history'
 });
+
+const toast = swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000
+});
+window.toast = toast;
 
 // GLOBAL FILTERS
 Vue.filter('mydate',function (arg){
