@@ -62,14 +62,14 @@
                                         <label for="name" class="col-sm-2 control-label">Name</label>
 
                                         <div class="col-sm-10">
-                                            <input class="form-control" id="name" placeholder="Name" type="email">
+                                            <input class="form-control" v-model="form.name" id="name" placeholder="Name" type="email">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="email" class="col-sm-2 control-label">Email</label>
 
                                         <div class="col-sm-10">
-                                            <input class="form-control" id="email" placeholder="Email"
+                                            <input class="form-control" v-model="form.email" id="email" placeholder="Email"
                                                    type="email">
                                         </div>
                                     </div>
@@ -77,7 +77,7 @@
                                         <label for="experience" class="col-sm-2 control-label">Experience</label>
 
                                         <div class="col-sm-10">
-                                            <textarea class="form-control" id="experience"
+                                            <textarea class="form-control" id="experience" v-model="form.bio"
                                                       placeholder="Experience"></textarea>
                                         </div>
                                     </div>
@@ -114,8 +114,27 @@
 
 <script>
     export default {
+        data(){
+            return{
+                form: new Form({
+                    id: '',
+                    name: '',
+                    email: '',
+                    password: '',
+                    type: '',
+                    bio: '',
+                    photo: ''
+                })
+            };
+        },
         mounted() {
 
+        },
+        created(){
+            axios.get("api/profile")
+                .then(({data})=>{
+                    this.form.fill(data);
+                })
         }
     }
 </script>
