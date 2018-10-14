@@ -84,7 +84,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Profile Photo</label>
                                         <div class="col-sm-10">
-                                            <input type="file" id="profilepic">
+                                            <input type="file" @change="updateprofile" id="profilepic">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -126,6 +126,16 @@
                     photo: ''
                 })
             };
+        },
+        methods: {
+            updateprofile(e){
+                let file = e.currentTarget.files[0];
+                let reader = new FileReader();
+                reader.onloadend = ()=>{
+                    console.log('Result',reader.result);
+                };
+                reader.readAsDataURL(file);
+            }
         },
         mounted() {
 
