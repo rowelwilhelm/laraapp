@@ -119,6 +119,7 @@
                 editmode: true,
                 users: {},
                 form: new Form({
+                    id: '',
                     name: '',
                     email: '',
                     password: '',
@@ -141,7 +142,21 @@
                 $('#addNew').modal('show');
             },
             updateuser(){
-                // this.editmode = true;
+                this.$Progress.start();
+                this.form.put('api/user/'+this.form.id)
+                    .then((response)=>{
+                        bus.$emit('aftercreated');
+                        $('#addNew').modal('hide');
+                        this.$Progress.finish();
+                        swal(
+                            'Updated!',
+                            'Information has been updated',
+                            'success'
+                        )
+                    })
+                    .catch((err)=>{
+                        this.$Progress.fail();
+                    });
             },
             createuser() {
                 this.$Progress.start();
