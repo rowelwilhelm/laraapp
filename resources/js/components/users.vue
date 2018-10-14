@@ -7,7 +7,7 @@
                         <h3 class="card-title">Users Table</h3>
 
                         <div class="card-tools">
-                            <button class="btn btn-success" data-toggle="modal" data-target="#addNew">
+                            <button class="btn btn-success" @click="newmodal">
                                 Add New
                                 <i class="fa fa-user-plus"></i>
                             </button>
@@ -32,7 +32,7 @@
                                 <td class="text-capitalize">{{item.type}}</td>
                                 <td>{{item.created_at | mydate}}</td>
                                 <td>
-                                    <a href="#">
+                                    <a href="#" @click.prevent="editmodal(item)">
                                         <i class="fa fa-edit blue"></i>
                                     </a>
                                     /
@@ -56,12 +56,12 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Add New</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">{{editmode?'Edit User':'Add New'}}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form @submit.prevent="createuser" @keydown="form.onKeydown($event)">
+                    <form @submit.prevent="editmode?updateuser():createuser()" @keydown="form.onKeydown($event)">
                         <div class="modal-body">
 
                             <div class="form-group">
@@ -101,7 +101,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                            <input type="submit" class="btn btn-primary" value="Create">
+                            <input type="submit" class="btn" :class="{'btn-success': editmode,'btn-primary': !editmode}" :value="editmode?'Update':'Create'">
                         </div>
                     </form>
                 </div>
@@ -116,6 +116,7 @@
     export default {
         data() {
             return {
+                editmode: true,
                 users: {},
                 form: new Form({
                     name: '',
@@ -128,6 +129,20 @@
             }
         },
         methods: {
+            editmodal(user){
+                this.editmode = true;
+                this.form.reset();
+                $('#addNew').modal('show');
+                this.form.fill(user);
+            },
+            newmodal(){
+                this.editmode = false;
+                this.form.reset();
+                $('#addNew').modal('show');
+            },
+            updateuser(){
+                // this.editmode = true;
+            },
             createuser() {
                 this.$Progress.start();
 
